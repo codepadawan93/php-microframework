@@ -11,6 +11,7 @@
 
     $c = new Core\Controller();
 
+    $c->response->addHeader("Content-Type: application/json");
     $c->response->send(
         json_encode(
             $res
