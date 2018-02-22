@@ -1,0 +1,17 @@
+{
+
+    "meta":{
+        "appname": "",
+        "path":"",
+        "HTTP_SERVER":""
+    },
+    "database" : {
+        "driver" : "mysql",
+        "name" : "laradmin",
+        "host" : "localhost",
+        "user" : "root",
+        "password" : "",
+        "prefix" : ""
+    }
+
+}

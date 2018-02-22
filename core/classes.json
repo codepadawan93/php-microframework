@@ -1,0 +1,13 @@
+{
+
+    "files":[
+        "core/config.class.php",
+        "core/dbdriver.class.php",
+        "core/model.class.php",
+        "core/request.class.php",
+        "core/response.class.php", 
+        "core/controller.class.php",
+        "core/router.class.php"
+    ]
+
+}
