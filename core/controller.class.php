@@ -28,6 +28,10 @@ class Controller {
 
     public $response = NULL;
 
+    public $router = NULL;
+
+    public $url = [];
+
     /*
     *
     *  Constructor
@@ -37,8 +41,11 @@ class Controller {
     *
     */
     public function __construct(){
+        $routes = array();
         $this->response = new Response();
         $this->request  = new Request();
+        $this->router = new Router();
+        $this->url = $this->parse_url();
     }
 
     /*
@@ -66,6 +73,24 @@ class Controller {
             throw new Exception( sprintf("Exception occurred in %s, line %s: specified model '%s' does not exist.", __FILE__, __LINE__, $class) );
         }
 
+    }
+
+    public function parse_url(){
+        $url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        return parse_url($url);
+    }
+
+    public function action(){
+        var_dump(func_get_args());
+    }
+
+    public function dispatch(){
+        $match  = $this->router->resolve($this->url['path']);
+        // Dispatch
+        if($match) {
+            $match->class = "Core\\" . $match->class;
+            call_user_func_array(array(new $match->class, $match->method), $match->params);
+        }
     }
 
 }

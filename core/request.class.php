@@ -18,4 +18,5 @@ class Request{
             $this->type = "BAD_REQUEST";
         }
     }
+    
 }

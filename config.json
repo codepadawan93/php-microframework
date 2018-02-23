@@ -1,9 +1,9 @@
 {
 
     "meta":{
-        "appname": "",
-        "path":"",
-        "HTTP_SERVER":""
+        "appname": "Miniframework",
+        "HTTP_SERVER":"",
+        "APP_PATH":"/dbdriverclass/"
     },
     "database" : {
         "driver" : "mysql",
