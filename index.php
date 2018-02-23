@@ -3,7 +3,7 @@
     require_once "core/loader.class.php";
 
     
-    define("ABSPATH", Core\Config::getConfiguration()['meta']['APP_PATH']);
+    define("UID", Core\Config::getConfiguration()['meta']['UID']);
 
     $m = new Core\Model();
    
