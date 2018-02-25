@@ -24,6 +24,8 @@ class Controller {
     */ 
     private const EXTENSION = ".class.php";
 
+    private const DIRECTORY = "models/";
+
     public $request = NULL;
 
     public $response = NULL;
@@ -58,11 +60,11 @@ class Controller {
     */ 
     public function load($class){
         
-        if(!file_exists( $class . self::EXTENSION )){
+        if(!file_exists( self::DIRECTORY . $class . self::EXTENSION )){
             throw new Exception( sprintf("Exception occurred in %s, line %s: specified file '%s' does not exist.", __FILE__, __LINE__, $class) );
         }else{
 
-            require_once ($class . self::EXTENSION);
+            require_once ( self::DIRECTORY . $class . self::EXTENSION);
             $class_name = ucfirst($class);
         
         }
@@ -88,7 +90,7 @@ class Controller {
         $match  = $this->router->resolve($this->url['path']);
         // Dispatch
         if($match) {
-            $match->class = "Core\\" . $match->class;
+            $match->class = /*"Core\\" .*/ $match->class;
             call_user_func_array(array(new $match->class, $match->method), $match->params);
         }
     }

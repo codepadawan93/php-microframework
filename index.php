@@ -1,6 +1,6 @@
 <?php 
-    
     require_once "core/loader.class.php";
+    use Core\Controller;
 
     
     define("UID", Core\Config::getConfiguration()['meta']['UID']);
@@ -13,11 +13,11 @@
 
     $c->dispatch();
 
-    $c->response->addHeader("Content-Type: application/json");
+    /*$c->response->addHeader("Content-Type: application/json");
     $c->response->send(
         json_encode(
             $res
         )
-    );
+    );*/
 
 ?>

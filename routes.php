@@ -1,4 +1,5 @@
 <?php
 use Core\Router;
 
-Router::get('Controller/action');
+Router::get('/');
+Router::get('home/index');
