@@ -2,6 +2,11 @@
 
 namespace Core;
 
+/*
+ *
+ *  Class Response - class to manipulate what server will respond to a request
+ * 
+ */ 
 class Response {
 
     private $headers = [];

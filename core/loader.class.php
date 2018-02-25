@@ -1,11 +1,24 @@
 <?php
 
 namespace Core;
-
+/*
+ *
+ *  Class Loader for loading configuration data, core classes and user-defined classes automatically
+ *
+ * 
+ */ 
 class Loader{
+    /*
+    *
+    *   Method does the loading
+    *   
+    *   @access public
+    *   @return void
+    *
+    */
     public static function __init__(){
         
-        /* Load Core */
+        // Load Core
         if(file_exists("classes.json")){
             throw new \Exception( sprintf("Exception occurred in %s, /%s, line %s: There is no classes.json file present.", __DIR__, __FILE__, __LINE__));
         }
@@ -24,6 +37,7 @@ class Loader{
             printf( "Exception occurred in %s, /%s, line %s: %s", __DIR__, __FILE__, __LINE__, $e->getMessage() );
         }
 
+        // Load user-defined classes. TODO:: catastrophic security vulnerability here, anything that is under these folders will be executed (plain text, php, js etc)
         $models = scandir('models/');
         foreach( $models as $model ){
             $file = 'models/' . $model;
