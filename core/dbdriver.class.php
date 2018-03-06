@@ -12,8 +12,8 @@ use PDO;
  * 
  */ 
 class DB {
+
     /*
-    *
     *  PDO DSN string
     *
     *  @type string
@@ -21,8 +21,8 @@ class DB {
     */ 
     private $DB_DSN;
 
+
     /*
-    *
     *  Database user
     *
     *  @type string
@@ -30,17 +30,17 @@ class DB {
     */ 
     private $DB_USER; 
     
+
     /*
-    *
     *  Database password
     *
     *  @type string
     * 
     */ 
     private $DB_PASS;
+  
     
     /*
-    *
     *  Internal PDO instance
     *
     *  @type PDO Object
@@ -48,8 +48,8 @@ class DB {
     */ 
     private $PDO;
     
+
     /*
-    *
     *  Database prefix
     *
     *  @type string
@@ -57,16 +57,16 @@ class DB {
     */ 
     public $prefix;
 
+
     /*
-    *
     *  Singleton instance
     *
     *  @type DB Object
     */ 
     private static $instance = NULL;
 
+
     /*
-    *
     *  Constructor
     *  
     *  @access private
@@ -102,8 +102,8 @@ class DB {
         }
     }
 
+
     /*
-    *
     *  Get singleton instance
     * 
     *  @access public
@@ -119,8 +119,8 @@ class DB {
         }
     }
 
+
     /*
-    *
     *  Escape dangerous characters in SQL queries
     * 
     *  @access public
@@ -131,8 +131,8 @@ class DB {
         return str_replace( ["\\", "\0", "\n", "\r", "\x1a", "'", '"'], ["\\\\", "\\0", "\\n", "\\r", "\Z", "\'", '\"'], $string);
     }
 
+    
     /*
-    *
     *  Get results as associative array
     *  
     *  Second parameter escapes user input

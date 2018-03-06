@@ -2,9 +2,9 @@
 
 namespace Core;
 
-use Core\Config as Config;
-use Core\Request as Request;
-use Core\Response as Response;
+use Core\Config;
+use Core\Request;
+use Core\Response;
 
 
 /*
@@ -16,7 +16,6 @@ use Core\Response as Response;
 class Controller {
     
     /*
-    *
     *  Extension
     *   
     *  @type string
@@ -24,14 +23,49 @@ class Controller {
     */ 
     private const EXTENSION = ".class.php";
 
+
+    /*
+    *  Extension
+    *   
+    *  @type string
+    *
+    */ 
     private const DIRECTORY = "models/";
 
+
+    /*
+    *  Request instance
+    *   
+    *  @type Core\Request
+    *
+    */ 
     public $request = NULL;
 
+
+    /*
+    *  Response instance
+    *   
+    *  @type Core\Response
+    *
+    */ 
     public $response = NULL;
 
+
+    /*
+    *  Router instance
+    *   
+    *  @type Router
+    *
+    */ 
     public $router = NULL;
 
+
+    /*
+    *  URL array
+    *   
+    *  @type array
+    *
+    */ 
     public $url = [];
 
     /*
@@ -46,12 +80,11 @@ class Controller {
         $routes = array();
         $this->response = new Response();
         $this->request  = new Request();
-        $this->router = new Router();
-        $this->url = $this->parse_url();
+        $this->router   = new Router();
+        $this->url      = $this->parse_url();
     }
 
     /*
-    *
     *  Loads a model for use in querying a database
     *   
     *  @access public
@@ -77,21 +110,36 @@ class Controller {
 
     }
 
+
+    /*
+    *  Parses current URL
+    *   
+    *  @access public
+    *  @return assoc
+    *
+    */ 
     public function parse_url(){
         $url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         return parse_url($url);
     }
 
-    public function action(){
-        var_dump(func_get_args());
-    }
 
+    /*
+    *  Calls the appropriate function on the base of the current URL
+    *   
+    *  @access public
+    *  @return void
+    *
+    */ 
     public function dispatch(){
         $match  = $this->router->resolve($this->url['path']);
-        // Dispatch
+
         if($match) {
-            $match->class = /*"Core\\" .*/ $match->class;
+            //$match->class = $match->class;
             call_user_func_array(array(new $match->class, $match->method), $match->params);
+        }else{
+            echo "404";
+            exit;
         }
     }
 

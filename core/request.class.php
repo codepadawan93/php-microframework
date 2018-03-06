@@ -1,6 +1,7 @@
 <?php 
 
 namespace Core;
+
 /*
 *   
 *   Class request - stores data about the last HTTP request
