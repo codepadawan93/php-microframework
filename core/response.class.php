@@ -88,7 +88,7 @@ class Response {
     *   
     *   @access public
     *   @return void
-    *
+    *   TODO:: implement error handling
     */ 
     public function send($data){
 
