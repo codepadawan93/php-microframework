@@ -27,6 +27,8 @@ class Response {
     */ 
     private $HTTP_status_code = 200;
 
+    private $encoding = "JSON";
+
     /*
     *   Setter for HTTP status code
     *   
@@ -55,17 +57,59 @@ class Response {
 
 
     /*
+    *   Specifies an encoding: json, xml, txt
+    *   
+    *   @access public
+    *   @return void
+    *
+    */ 
+    public function setEncoding($encoding){
+        
+        /* This is terrible, should refactor */
+        if($encoding === "JSON" && !in_array( "Content-Type: text/json; charset=utf-8", $this->headers ) ){
+
+            $this->addHeader("Content-Type: text/json; charset=utf-8");
+
+        }elseif($encoding === "XML" && !in_array( "Content-Type: text/xml; charset=utf-8", $this->headers ) ){
+
+            $this->addHeader("Content-Type: text/xml; charset=utf-8");
+
+        }else{
+
+            $this->addHeader("Content-Type: text/plain; charset=utf-8");
+            
+        }
+
+        $this->encoding = $encoding;
+    }
+
+    /*
     *   Sends the response
     *   
     *   @access public
     *   @return void
-    *   TODO:: add a second parameter to send as json, xml or plaintext
+    *
     */ 
     public function send($data){
+
         foreach($this->headers as $header){
             header($header);
         }
+
         http_response_code( (int)$this->HTTP_status_code );
-        echo json_encode($data);
+
+        if($this->encoding === "JSON"){
+
+            echo json_encode($data);
+
+        }elseif($this->encoding === "XML"){
+
+            echo \__XML::xml_encode($data);
+
+        }else{
+
+            echo $data;
+            
+        }
     }
 }
