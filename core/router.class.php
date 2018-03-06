@@ -33,13 +33,13 @@ class Router
     *
     *  @access private
     *  @return Route
-    *
+    *   TODO:: find a way to controller === controller/ === controller/index
     */ 
     private static function buildRoute($pattern){
         $PATH = Config::getConfiguration()['meta']['APP_PATH'];
         $route = new Route;
         $route->name    = $pattern;
-        $route->pattern = $PATH . str_replace( '/index', '', $pattern ) ;
+        $route->pattern = $PATH . str_replace( 'index', '', $pattern ) ;
 
         $elems = explode('/', trim($pattern, '/'));
 
@@ -97,11 +97,12 @@ class Router
     *
     */ 
     public function resolve($app_path)
-    {
+    {   
+        $app_path = str_replace('index', '', $app_path);
         $matched = false;
         foreach(self::$routes as $method) {
             foreach($method as $route){
-                if(strpos($app_path, $route->pattern) === 0 || strpos($app_path, $route->pattern . 'index') === 0) {
+                if(strcmp( trim($app_path, '/'), trim($route->pattern, '/') ) === 0) {
                     $matched = true;
                     break;
                 }

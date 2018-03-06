@@ -1,5 +1,5 @@
 <?php
 use Core\Router;
 
-Router::get('/');
-Router::get('home/index');
+Router::get('home');
+Router::get('home/getMessage');
