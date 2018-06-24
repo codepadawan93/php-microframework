@@ -1,6 +1,6 @@
 <?php 
 
-class __XML{
+class XML_Encoder{
     public static function xml_encode($mixed, $domElement=null, $DOMDocument=null) {
         if (is_null($DOMDocument)) {
             $DOMDocument =new DOMDocument;

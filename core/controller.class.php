@@ -141,7 +141,7 @@ class Controller {
             $this->response->setHTTPStatusCode(404);
             $this->response->send([
                 "message" => "Not Found",
-                "error"   => true
+                "success"   => false
             ]);
             exit;
         }

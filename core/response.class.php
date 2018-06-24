@@ -19,14 +19,23 @@ class Response {
     private $headers = [];
 
     /*
-    *   HTTP status code
-    *   
-    *   @access private
-    *   @type int
+    * HTTP status code
+    *  
+    * @access private
+    * @type int
     *
     */ 
     private $HTTP_status_code = 200;
 
+    /**
+     * Content type of response  - JSON, XML or plaintext
+     * 
+     * TODO::implement through enum and get rid of the repetition in setEncoding() and send()
+     * 
+     * @access private
+     * @type string
+     * 
+     */
     private $encoding = "JSON";
 
     /*
@@ -88,7 +97,7 @@ class Response {
     *   
     *   @access public
     *   @return void
-    *   TODO:: implement error handling
+    *   TODO:: refactor, it's pretty bad
     */ 
     public function send($data){
 
@@ -96,22 +105,47 @@ class Response {
         if($this->encoding === "JSON"){
 
             $this->addHeader("Content-Type: text/json; charset=utf-8");
-            $output  = json_encode($data);
+
+            try{
+                $output  = json_encode($data);
+            }catch(\Exception $e)
+            {
+                $this->setHTTPStatusCode(500);
+                $output = json_encode([
+                    "message" => $e->getTraceAsString(),
+                    "success" => false
+                ]);
+            }
 
         }elseif($this->encoding === "XML"){
 
             $this->addHeader("Content-Type: text/xml; charset=utf-8");
-            $output  =  \__XML::xml_encode($data);
+
+            try{
+                $output  =  \XML_Encoder::xml_encode($data);
+            }catch(\Exception $e)
+            {
+                $this->setHTTPStatusCode(500);
+                $output = \XML_Encoder::xml_encode([
+                    "message" => $e->getTraceAsString(),
+                    "success" => false
+                ]);
+            }
 
         }else{
-
             $this->addHeader("Content-Type: text/plain; charset=utf-8");
-            $output  = $data;
-            
+            try{
+                $output  = $data;
+            }catch(\Exception $e)
+            {
+                $this->setHTTPStatusCode(500);
+                $output = "Internal application error encountered : " . $e->getTraceAsString();
+            }
+
         }
 
         http_response_code( (int)$this->HTTP_status_code );
-        
+
         foreach($this->headers as $header){
             header($header);
         }

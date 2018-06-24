@@ -1,7 +1,7 @@
 {
 
     "files":[
-        "library/xml_encode.class.php",
+        "library/xml_encoder.class.php",
         "core/config.class.php",
         "core/dbdriver.class.php",
         "core/model.class.php",

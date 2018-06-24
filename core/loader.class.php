@@ -16,7 +16,7 @@ class Loader{
     *   @return void
     *
     */
-    public static function __init__(){
+    public static function init(){
         
         // Load Core
         if(file_exists("classes.json")){
@@ -57,4 +57,4 @@ class Loader{
     }
 }
 
-Loader::__init__();
+Loader::init();
