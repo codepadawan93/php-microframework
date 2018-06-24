@@ -92,24 +92,30 @@ class Response {
     */ 
     public function send($data){
 
+        $output = null;
+        if($this->encoding === "JSON"){
+
+            $this->addHeader("Content-Type: text/json; charset=utf-8");
+            $output  = json_encode($data);
+
+        }elseif($this->encoding === "XML"){
+
+            $this->addHeader("Content-Type: text/xml; charset=utf-8");
+            $output  =  \__XML::xml_encode($data);
+
+        }else{
+
+            $this->addHeader("Content-Type: text/plain; charset=utf-8");
+            $output  = $data;
+            
+        }
+
+        http_response_code( (int)$this->HTTP_status_code );
+        
         foreach($this->headers as $header){
             header($header);
         }
 
-        http_response_code( (int)$this->HTTP_status_code );
-
-        if($this->encoding === "JSON"){
-
-            echo json_encode($data);
-
-        }elseif($this->encoding === "XML"){
-
-            echo \__XML::xml_encode($data);
-
-        }else{
-
-            echo $data;
-            
-        }
+        echo $output;
     }
 }

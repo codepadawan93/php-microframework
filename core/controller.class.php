@@ -138,7 +138,11 @@ class Controller {
             //$match->class = $match->class;
             call_user_func_array(array(new $match->class, $match->method), $match->params);
         }else{
-            echo "404";
+            $this->response->setHTTPStatusCode(404);
+            $this->response->send([
+                "message" => "Not Found",
+                "error"   => true
+            ]);
             exit;
         }
     }
