@@ -2,6 +2,7 @@
 
     "files":[
         "library/xml_encoder.class.php",
+        "library/utils.php",
         "core/config.class.php",
         "core/dbdriver.class.php",
         "core/model.class.php",

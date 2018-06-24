@@ -59,15 +59,6 @@ class Controller {
     */ 
     public $router = NULL;
 
-
-    /*
-    *  URL array
-    *   
-    *  @type array
-    *
-    */ 
-    public $url = [];
-
     /*
     *
     *  Constructor
@@ -81,7 +72,6 @@ class Controller {
         $this->response = new Response();
         $this->request  = new Request();
         $this->router   = new Router();
-        $this->url      = $this->parse_url();
     }
 
     /*
@@ -112,19 +102,6 @@ class Controller {
 
 
     /*
-    *  Parses current URL
-    *   
-    *  @access public
-    *  @return assoc
-    *
-    */ 
-    public function parse_url(){
-        $url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        return parse_url($url);
-    }
-
-
-    /*
     *  Calls the appropriate function on the base of the current URL
     *   
     *  @access public
@@ -132,10 +109,9 @@ class Controller {
     *
     */ 
     public function dispatch(){
-        $match  = $this->router->resolve($this->url['path']);
+        $match  = $this->router->resolve($this->request);
 
         if($match) {
-            //$match->class = $match->class;
             call_user_func_array(array(new $match->class, $match->method), $match->params);
         }else{
             $this->response->setHTTPStatusCode(404);

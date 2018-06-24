@@ -89,35 +89,46 @@ class Router
     }
 
 
-    /*
-    *  Resolves a URL
+    /**
+    *  Resolves a URL, returning the class and method names for the requested action
+    *  so a proper response can be sent. All '/' delimited URI segments after the
+    *  class/method combination are regarded as parameters
     *
     *  @access public
-    *  @return bool
+    *  @return mixed
     *
     */ 
-    public function resolve($app_path)
+    public function resolve(Request $request)
     {   
-        $app_path = str_replace('index', '', $app_path);
+        // TODO:: this bad request stuff should be some kind of enum
+        if($request->internalType === "BAD_REQUEST") return false;
+        $uri = $request->url['path'];
+        $uri = str_replace('index', '', $uri);
         $matched = false;
-        foreach(self::$routes as $method) {
-            foreach($method as $route){
-                if(strcmp( trim($app_path, '/'), trim($route->pattern, '/') ) === 0) {
-                    $matched = true;
-                    break;
-                }
+        $uriSegments =  preg_split('@/@', trim($uri), NULL, PREG_SPLIT_NO_EMPTY);
+
+        /* TODO::fix this, as method name is currently treated as parameter */
+        foreach(self::$routes[$request->internalType] as $route){
+            if($uriSegments[1] === $route->class && $uriSegments[2] === $route->method)
+            {
+                $matched = true;
             }
+            elseif($uriSegments[1] === $route->class && $route->method === 'index')
+            {
+                $matched = true;
+            }
+            if($matched) break;
         }
+        
+        if(! $matched ) return false;
 
-        if(! $matched) return false;
+        $param_str = str_replace($route->pattern, '', $uri);
 
-        $param_str = str_replace($route->pattern, '', $app_path);
         $params = explode('/', trim($param_str, '/'));
         $params = array_filter($params);
 
         $match = clone($route);
         $match->params = $params;
-
         return $match;
     }
 }

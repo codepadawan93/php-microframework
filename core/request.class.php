@@ -18,6 +18,14 @@ class Request{
 
     /*
     *   
+    *   internal type - the framework's internal representation of 
+    *   an HTTP verb
+    *
+    */
+    public $internalType;
+
+    /*
+    *   
     *   GET - stores GET variables as keys in assoc
     *
     */
@@ -31,6 +39,26 @@ class Request{
     public $post = [];
 
     /*
+    *  URL array
+    *   
+    *  @type array
+    *
+    */ 
+    public $url = [];
+
+    /*
+    *  Parses current URL
+    *   
+    *  @access public
+    *  @return assoc
+    *
+    */ 
+    public function parse_url(){
+        $url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        return parse_url($url);
+    }
+
+    /*
     *   
     *   Constructor
     *
@@ -39,12 +67,14 @@ class Request{
     *
     */
     public function __construct(){
-        
-        if( isset( $SERVER['REQUEST_TYPE'] ) ){
-            $this->type = $SERVER['REQUEST_TYPE'];
+        if( isset( $_SERVER['REQUEST_METHOD'] ) ){
+            $this->type = $_SERVER['REQUEST_METHOD'];
+            $this->internalType = strtolower($_SERVER['REQUEST_METHOD']);
         }else{
             $this->type = "BAD_REQUEST";
+            $this->internalType = "BAD_REQUEST";
         }
+        $this->url = $this->parse_url();
     }
     
 }
