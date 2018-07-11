@@ -7,7 +7,7 @@ use Core\Request;
 use Core\Response;
 
 
-/*
+/**
  *
  *  Class Controller for processing a request and returning a response
  * 
@@ -15,7 +15,7 @@ use Core\Response;
  */ 
 class Controller {
     
-    /*
+    /**
     *  Extension
     *   
     *  @type string
@@ -24,7 +24,7 @@ class Controller {
     private const EXTENSION = ".class.php";
 
 
-    /*
+    /**
     *  Extension
     *   
     *  @type string
@@ -33,7 +33,7 @@ class Controller {
     private const DIRECTORY = "models/";
 
 
-    /*
+    /**
     *  Request instance
     *   
     *  @type Core\Request
@@ -42,7 +42,7 @@ class Controller {
     public $request = NULL;
 
 
-    /*
+    /**
     *  Response instance
     *   
     *  @type Core\Response
@@ -51,7 +51,7 @@ class Controller {
     public $response = NULL;
 
 
-    /*
+    /** 
     *  Router instance
     *   
     *  @type Router
@@ -59,7 +59,7 @@ class Controller {
     */ 
     public $router = NULL;
 
-    /*
+    /**
     *
     *  Constructor
     *   
@@ -74,7 +74,7 @@ class Controller {
         $this->router   = new Router();
     }
 
-    /*
+    /**
     *  Loads a model for use in querying a database
     *   
     *  @access public
@@ -101,7 +101,7 @@ class Controller {
     }
 
 
-    /*
+    /**
     *  Calls the appropriate function on the base of the current URL
     *   
     *  @access public

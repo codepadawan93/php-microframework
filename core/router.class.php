@@ -100,32 +100,44 @@ class Router
     */ 
     public function resolve(Request $request)
     {   
-        // TODO:: this bad request stuff should be some kind of enum
         if($request->internalType === "BAD_REQUEST") return false;
-        $uri = $request->url['path'];
-        $uri = str_replace('index', '', $uri);
+
+        $uri     = $request->url['path'];
+        $uri     = str_replace('index', '', $uri);
         $matched = false;
         $uriSegments =  preg_split('@/@', trim($uri), NULL, PREG_SPLIT_NO_EMPTY);
 
-        /* TODO::fix this, as method name is currently treated as parameter */
-        foreach(self::$routes[$request->internalType] as $route){
-            if($uriSegments[1] === $route->class && $uriSegments[2] === $route->method)
+        $candidate = null;
+        foreach(self::$routes[$request->internalType] as $i => $route)
+        {
+            foreach($uriSegments as $j => $uriSegment)
             {
-                $matched = true;
-            }
-            elseif($uriSegments[1] === $route->class && $route->method === 'index')
-            {
-                $matched = true;
+                if(
+                    $uriSegment === $route->class && 
+                    $uriSegments[$i+1] === $route->method
+                )
+                {
+                    $matched = true;
+                }
+                elseif(
+                    $uriSegment === $route->class && 
+                    $uriSegments[$i+1] !== $route->method && 
+                    $route->method === "index"
+                )
+                {
+                    $candidate = $route;
+                }
             }
             if($matched) break;
         }
-        
-        if(! $matched ) return false;
 
-        $param_str = str_replace($route->pattern, '', $uri);
+        if( !$matched && $candidate !== null) 
+        {
+            $route = $candidate;
+        } elseif ( !$matched ) return false;
 
-        $params = explode('/', trim($param_str, '/'));
-        $params = array_filter($params);
+        $paramString = str_replace($route->pattern, '', $uri);
+        $params      = explode('/', trim($paramString, '/'));
 
         $match = clone($route);
         $match->params = $params;

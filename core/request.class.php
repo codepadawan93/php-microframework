@@ -2,43 +2,39 @@
 
 namespace Core;
 
-/*
+/**
 *   
 *   Class request - stores data about the last HTTP request
 *
 */
 class Request{
 
-    /*
-    *   
-    *   type - stores the type of the last request as string 
+    /**
+    *   Type - stores the type of the last request as string 
     *
     */
     public $type;
 
-    /*
-    *   
-    *   internal type - the framework's internal representation of 
-    *   an HTTP verb
+    /**
+    *   Internal type - the framework's internal representation of an HTTP verb
     *
     */
     public $internalType;
 
-    /*
-    *   
+    /**
     *   GET - stores GET variables as keys in assoc
     *
     */
     public $get = [];
 
-    /*
+    /**
     *   
     *   POST - stores POST variables as keys in assoc
     *
     */
     public $post = [];
 
-    /*
+    /**
     *  URL array
     *   
     *  @type array
@@ -46,7 +42,7 @@ class Request{
     */ 
     public $url = [];
 
-    /*
+    /**
     *  Parses current URL
     *   
     *  @access public
@@ -58,8 +54,7 @@ class Request{
         return parse_url($url);
     }
 
-    /*
-    *   
+    /**
     *   Constructor
     *
     *   @access public

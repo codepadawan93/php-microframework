@@ -1,5 +1,11 @@
 <?php 
 
+/**
+ * Pretty-prints a variable and stops the script
+ * 
+ * @param mixed
+ * @return void
+ */
 function d($var)
 {
     header("Content-Type: text/html; charset=utf-8");
