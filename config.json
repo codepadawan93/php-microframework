@@ -1,10 +1,9 @@
 {
-
     "meta":{
         "APPNAME": "REST microframework",
         "HTTP_SERVER":"",
         "UID":"581e9dcc45daf0c619d68de151b73dcf",
-        "APP_PATH":"/dbdriverclass/"
+        "APP_PATH":"/php-microframework/"
     },
     "database" : {
         "driver" : "mysql",
@@ -13,6 +12,6 @@
         "user" : "root",
         "password" : "",
         "prefix" : ""
-    }
-
+    },
+    "mail" : {}
 }

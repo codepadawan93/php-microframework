@@ -2,41 +2,30 @@
 
 namespace Core;
 
-/*
-*  A Route entity for storing infoirmation about mapping URL patterns to functions
-*/ 
-class Route
-{
-    public $name;
-    public $pattern;
-    public $class;
-    public $method;
-    public $params;
-}
+use Core\Route;
 
 /*
 *  Router that actually does the mapping
-*/ 
+*/
 class Router
 {
-    /*
+    /**
     *  Static array of routes
     *
     *  @access public
     *
-    */ 
+    */
     public static $routes;
 
 
-    /*
+    /**
     *  Creates a route from a pattern
     *
     *  @access private
     *  @return Route
-    *   TODO:: find a way to controller === controller/ === controller/index
-    */ 
+    */
     private static function buildRoute($pattern){
-        $PATH = Config::getConfiguration()['meta']['APP_PATH'];
+        $PATH = Config::getConfiguration()->meta->APP_PATH;
         $route = new Route;
         $route->name    = $pattern;
         $route->pattern = $PATH . str_replace( 'index', '', $pattern ) ;
@@ -52,42 +41,58 @@ class Router
         return $route;
     }
 
-    /* TODO:: split logic into pattern and callbacks */
-    /*
+    /**
     *  Maps a pattern to a route that can be accessed via method GET
     *
     *  @access public
     *  @return void
     *
-    */ 
+    */
     public static function get($pattern, $target = ''){
         self::$routes["get"][] = self::buildRoute($pattern);
     }
 
 
-    /*
+    /**
     *  Maps a pattern to a route that can be accessed via method POST
     *
     *  @access public
     *  @return void
     *
-    */ 
-    public static function post($pattern, $target = ''){
+    */
+    public static function post($pattern){
         self::$routes["post"][] = self::buildRoute($pattern);
     }
 
 
-    /*
+    /**
     *  Maps a pattern to a route that can be accessed via any method
     *
     *  @access public
     *  @return void
     *
-    */ 
-    public static function any($pattern, $target = ''){
+    */
+    public static function any($pattern){
         self::$routes["any"][] = self::buildRoute($pattern);
     }
 
+    /**
+    * Sets the default constroller class
+    *
+    *  @access public
+    *  @return void
+    *
+    */
+    public static function default($className){
+        $route = new Route;
+        $route->name    = "default";
+        $route->pattern =
+          Config::getConfiguration()->meta->APP_PATH;
+        $route->class   = ucfirst($className);
+        $route->method  = "index";
+        $route->params  = null;
+        self::$routes["default"] = $route;
+    }
 
     /**
     *  Resolves a URL, returning the class and method names for the requested action
@@ -97,9 +102,9 @@ class Router
     *  @access public
     *  @return mixed
     *
-    */ 
+    */
     public function resolve(Request $request)
-    {   
+    {
         if($request->internalType === "BAD_REQUEST") return false;
 
         $uri     = $request->url['path'];
@@ -113,15 +118,17 @@ class Router
             foreach($uriSegments as $j => $uriSegment)
             {
                 if(
-                    $uriSegment === $route->class && 
+                    $uriSegment === $route->class &&
+                    isset($uriSegments[$i+1]) &&
                     $uriSegments[$i+1] === $route->method
                 )
                 {
                     $matched = true;
                 }
                 elseif(
-                    $uriSegment === $route->class && 
-                    $uriSegments[$i+1] !== $route->method && 
+                    $uriSegment === $route->class &&
+                    isset($uriSegments[$i+1]) &&
+                    $uriSegments[$i+1] !== $route->method &&
                     $route->method === "index"
                 )
                 {
@@ -131,10 +138,14 @@ class Router
             if($matched) break;
         }
 
-        if( !$matched && $candidate !== null) 
+        if( !$matched && $candidate !== null)
         {
             $route = $candidate;
-        } elseif ( !$matched ) return false;
+        }
+        elseif ( !$matched && isset(self::$routes["default"])) {
+            $route = self::$routes["default"];
+        }
+        elseif ( !$matched ) return false;
 
         $paramString = str_replace($route->pattern, '', $uri);
         $params      = explode('/', trim($paramString, '/'));

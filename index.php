@@ -1,11 +1,11 @@
-<?php 
-    require_once "core/loader.class.php";
+<?php
+    require_once "Core/Loader.class.php";
     use Core\Controller;
+    use Core\Config;
 
-    
-    define("UID", Core\Config::getConfiguration()['meta']['UID']);
+    define("UID", Config::getConfiguration()->meta->UID);
 
-    $controller = new Core\Controller();
+    $controller = new Controller();
     $controller->dispatch();
 
 ?>

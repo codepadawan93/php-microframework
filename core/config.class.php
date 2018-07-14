@@ -6,11 +6,11 @@ namespace Core;
  *
  *  Class Config for returning configuration data
  *
- * 
- */ 
-class Config{
+ *
+ */
+class Config {
 
-    private static $configuration = NULL;
+    private static $configuration = null;
 
     /*
     *
@@ -18,10 +18,10 @@ class Config{
     *
     *  @access public
     *  @return assoc
-    * 
-    */ 
+    *
+    */
     public static function getConfiguration(){
-        
+
         if( !file_exists( "config.json" ) ){
             throw new \Exception( sprintf("Exception occurred in %s, line %s: configuration file does not exist.", __FILE__, __LINE__) );
         }
@@ -33,7 +33,7 @@ class Config{
         }
 
         try{
-            self::$configuration = json_decode($config_string, true);
+            self::$configuration = json_decode($config_string);
         }catch(\Exception $e){
             printf( "Exception occurred in %s, line %s: ", __FILE__, __LINE__, $e->getMessage() );
         }

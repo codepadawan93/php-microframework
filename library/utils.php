@@ -2,7 +2,7 @@
 
 /**
  * Pretty-prints a variable and stops the script
- * 
+ *
  * @param mixed
  * @return void
  */

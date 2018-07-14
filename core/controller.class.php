@@ -10,59 +10,53 @@ use Core\Response;
 /**
  *
  *  Class Controller for processing a request and returning a response
- * 
- * 
- */ 
+ *
+ *
+ */
 class Controller {
-    
+
     /**
     *  Extension
-    *   
-    *  @type string
-    *
-    */ 
+    */
     private const EXTENSION = ".class.php";
 
 
     /**
-    *  Extension
-    *   
-    *  @type string
-    *
-    */ 
-    private const DIRECTORY = "models/";
+    *  Directory for models
+    */
+    private const DIRECTORY = "./Models/";
 
 
     /**
     *  Request instance
-    *   
+    *
     *  @type Core\Request
     *
-    */ 
-    public $request = NULL;
+    */
+    public $request = null;
 
 
     /**
     *  Response instance
-    *   
+    *
     *  @type Core\Response
     *
-    */ 
-    public $response = NULL;
+    */
+    public $response = null;
 
 
-    /** 
+    /**
     *  Router instance
-    *   
+    *
     *  @type Router
     *
-    */ 
-    public $router = NULL;
+    */
+    public $router = null;
 
     /**
     *
     *  Constructor
-    *   
+    *
     *  @access public
     *  @return void
     *
@@ -76,20 +70,20 @@ class Controller {
 
     /**
     *  Loads a model for use in querying a database
-    *   
+    *
     *  @access public
     *  @return void
     *
-    */ 
+    */
     public function load($class){
-        
+
         if(!file_exists( self::DIRECTORY . $class . self::EXTENSION )){
             throw new Exception( sprintf("Exception occurred in %s, line %s: specified file '%s' does not exist.", __FILE__, __LINE__, $class) );
         }else{
 
             require_once ( self::DIRECTORY . $class . self::EXTENSION);
             $class_name = ucfirst($class);
-        
+
         }
 
         if(class_exists( $class_name )){
@@ -103,11 +97,11 @@ class Controller {
 
     /**
     *  Calls the appropriate function on the base of the current URL
-    *   
+    *
     *  @access public
     *  @return void
     *
-    */ 
+    */
     public function dispatch(){
         $match  = $this->router->resolve($this->request);
 

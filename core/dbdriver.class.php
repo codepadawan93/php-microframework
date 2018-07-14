@@ -2,23 +2,23 @@
 
 namespace Core;
 
-use Core\Config as Config;
+use Core\Config;
 use PDO;
 
 /*
  *
  *  Class DB for querying the database
  *
- * 
- */ 
+ *
+ */
 class DB {
 
     /*
     *  PDO DSN string
     *
     *  @type string
-    * 
-    */ 
+    *
+    */
     private $DB_DSN;
 
 
@@ -26,35 +26,35 @@ class DB {
     *  Database user
     *
     *  @type string
-    * 
-    */ 
-    private $DB_USER; 
-    
+    *
+    */
+    private $DB_USER;
+
 
     /*
     *  Database password
     *
     *  @type string
-    * 
-    */ 
+    *
+    */
     private $DB_PASS;
-  
-    
+
+
     /*
     *  Internal PDO instance
     *
     *  @type PDO Object
-    * 
-    */ 
+    *
+    */
     private $PDO;
-    
+
 
     /*
     *  Database prefix
     *
     *  @type string
-    * 
-    */ 
+    *
+    */
     public $prefix;
 
 
@@ -62,17 +62,17 @@ class DB {
     *  Singleton instance
     *
     *  @type DB Object
-    */ 
+    */
     private static $instance = NULL;
 
 
     /*
     *  Constructor
-    *  
+    *
     *  @access private
     *  @returns DB Object
     *
-    */ 
+    */
     private function __construct(){
         try{
             $config = Config::getConfiguration();
@@ -90,7 +90,7 @@ class DB {
         $this->DB_USER = $config['database']['user'];
         $this->DB_PASS = $config['database']['password'];
         $this->prefix  = $config['database']['prefix'];
-        
+
         try{
 
             $this->PDO = new PDO($this->DB_DSN, $this->DB_USER, $this->DB_PASS);
@@ -105,11 +105,11 @@ class DB {
 
     /*
     *  Get singleton instance
-    * 
+    *
     *  @access public
     *  @returns DB Object
-    * 
-    */ 
+    *
+    */
     public function getInstance(){
         if(self::$instance === NULL){
             self::$instance = new DB();
@@ -122,26 +122,26 @@ class DB {
 
     /*
     *  Escape dangerous characters in SQL queries
-    * 
+    *
     *  @access public
     *  @returns string
-    * 
-    */ 
+    *
+    */
     public function escape($string){
         return str_replace( ["\\", "\0", "\n", "\r", "\x1a", "'", '"'], ["\\\\", "\\0", "\\n", "\\r", "\Z", "\'", '\"'], $string);
     }
 
-    
+
     /*
     *  Get results as associative array
-    *  
+    *
     *  Second parameter escapes user input
     *
     *  @access public
     *  @params string, (optional)bool
     *  @returns assoc
-    * 
-    */ 
+    *
+    */
     public function query($SQL_string, $escape = false){
         if($escape){
             $SQL_string = $this->escape( $SQL_string );

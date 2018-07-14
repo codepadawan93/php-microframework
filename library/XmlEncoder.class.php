@@ -1,15 +1,17 @@
-<?php 
+<?php
 
-class XML_Encoder{
+namespace Library;
+
+class XmlEncoder {
     public static function xml_encode($mixed, $domElement=null, $DOMDocument=null) {
         if (is_null($DOMDocument)) {
-            $DOMDocument =new DOMDocument;
+            $DOMDocument =new \DOMDocument;
             $DOMDocument->formatOutput = true;
             self::xml_encode($mixed, $DOMDocument, $DOMDocument);
             return $DOMDocument->saveXML();
         }
         else {
-            // To cope with embedded objects 
+            // To cope with embedded objects
             if (is_object($mixed)) {
               $mixed = get_object_vars($mixed);
             }
@@ -34,7 +36,7 @@ class XML_Encoder{
                             $node = $singular;
                         }
                     }
-    
+
                     self::xml_encode($mixedElement, $node, $DOMDocument);
                 }
             }
