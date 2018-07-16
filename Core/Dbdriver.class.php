@@ -5,7 +5,7 @@ namespace Core;
 use Core\Config;
 use PDO;
 
-/*
+/**
  *
  *  Class DB for querying the database
  *
@@ -13,7 +13,7 @@ use PDO;
  */
 class DB {
 
-    /*
+    /**
     *  PDO DSN string
     *
     *  @type string
@@ -22,7 +22,7 @@ class DB {
     private $DB_DSN;
 
 
-    /*
+    /**
     *  Database user
     *
     *  @type string
@@ -31,7 +31,7 @@ class DB {
     private $DB_USER;
 
 
-    /*
+    /**
     *  Database password
     *
     *  @type string
@@ -40,7 +40,7 @@ class DB {
     private $DB_PASS;
 
 
-    /*
+    /**
     *  Internal PDO instance
     *
     *  @type PDO Object
@@ -49,7 +49,7 @@ class DB {
     private $PDO;
 
 
-    /*
+    /**
     *  Database prefix
     *
     *  @type string
@@ -58,7 +58,7 @@ class DB {
     public $prefix;
 
 
-    /*
+    /**
     *  Singleton instance
     *
     *  @type DB Object
@@ -66,11 +66,11 @@ class DB {
     private static $instance = NULL;
 
 
-    /*
+    /**
     *  Constructor
     *
     *  @access private
-    *  @returns DB Object
+    *  @return DB Object
     *
     */
     private function __construct(){
@@ -103,11 +103,11 @@ class DB {
     }
 
 
-    /*
+    /**
     *  Get singleton instance
     *
     *  @access public
-    *  @returns DB Object
+    *  @return DB Object
     *
     */
     public function getInstance(){
@@ -120,11 +120,11 @@ class DB {
     }
 
 
-    /*
+    /**
     *  Escape dangerous characters in SQL queries
     *
     *  @access public
-    *  @returns string
+    *  @return string
     *
     */
     public function escape($string){
@@ -132,14 +132,15 @@ class DB {
     }
 
 
-    /*
+    /**
     *  Get results as associative array
     *
     *  Second parameter escapes user input
     *
     *  @access public
-    *  @params string, (optional)bool
-    *  @returns assoc
+    *  @param SQL_string string 
+    *  @param escape (optional)
+    *  @return assoc
     *
     */
     public function query($SQL_string, $escape = false){

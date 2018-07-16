@@ -22,6 +22,7 @@ class Router
     *  Creates a route from a pattern
     *
     *  @access private
+    *  @param pattern the pattern to match
     *  @return Route
     */
     private static function buildRoute($pattern){
@@ -45,10 +46,11 @@ class Router
     *  Maps a pattern to a route that can be accessed via method GET
     *
     *  @access public
+    *  @param pattern
     *  @return void
     *
     */
-    public static function get($pattern, $target = ''){
+    public static function get($pattern){
         self::$routes["get"][] = self::buildRoute($pattern);
     }
 
@@ -57,6 +59,7 @@ class Router
     *  Maps a pattern to a route that can be accessed via method POST
     *
     *  @access public
+    *  @param pattern
     *  @return void
     *
     */
@@ -69,6 +72,7 @@ class Router
     *  Maps a pattern to a route that can be accessed via any method
     *
     *  @access public
+    *  @param pattern
     *  @return void
     *
     */
@@ -80,6 +84,7 @@ class Router
     * Sets the default constroller class
     *
     *  @access public
+    *  @param className
     *  @return void
     *
     */
@@ -100,6 +105,7 @@ class Router
     *  class/method combination are regarded as parameters
     *
     *  @access public
+    *  @param request
     *  @return mixed
     *
     */
@@ -111,7 +117,7 @@ class Router
         $uri     = str_replace('index', '', $uri);
         $matched = false;
         $uriSegments =  preg_split('@/@', trim($uri), NULL, PREG_SPLIT_NO_EMPTY);
-
+        
         $candidate = null;
         foreach(self::$routes[$request->internalType] as $i => $route)
         {
@@ -119,16 +125,23 @@ class Router
             {
                 if(
                     $uriSegment === $route->class &&
-                    isset($uriSegments[$i+1]) &&
-                    $uriSegments[$i+1] === $route->method
+                    isset($uriSegments[$j+1]) &&
+                    $uriSegments[$j+1] === $route->method
                 )
                 {
                     $matched = true;
                 }
                 elseif(
                     $uriSegment === $route->class &&
-                    isset($uriSegments[$i+1]) &&
-                    $uriSegments[$i+1] !== $route->method &&
+                    isset($uriSegments[$j+1]) &&
+                    $uriSegments[$j+1] !== $route->method &&
+                    $route->method === "index"
+                )
+                {
+                    $candidate = $route;
+                }
+                elseif(
+                    $uriSegment === $route->class &&
                     $route->method === "index"
                 )
                 {

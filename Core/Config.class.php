@@ -12,12 +12,12 @@ class Config {
 
     private static $configuration = null;
 
-    /*
+    /** 
     *
-    *  Get configuration data as an assoc
+    *  Get configuration data as object
     *
     *  @access public
-    *  @return assoc
+    *  @return stdClass
     *
     */
     public static function getConfiguration(){
@@ -37,7 +37,7 @@ class Config {
         }catch(\Exception $e){
             printf( "Exception occurred in %s, line %s: ", __FILE__, __LINE__, $e->getMessage() );
         }
-
+        
         return self::$configuration;
     }
 }
