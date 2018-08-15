@@ -39,7 +39,7 @@ class Loader {
             printf( "Exception occurred in %s, /%s, line %s: %s", __DIR__, __FILE__, __LINE__, $e->getMessage() );
         }
 
-        // Load user-defined classes. TODO:: security vulnerability here, anything that is under these folders will be executed (plain text, php, js etc)
+        // Load user-defined classes. TODO:: security vulnerability here, anything that is under these folders will be executed (plain text, php etc)
         if(file_exists(self::MODEL_DIR))
         {
           $models = scandir(self::MODEL_DIR);

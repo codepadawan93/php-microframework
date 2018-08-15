@@ -1,16 +1,16 @@
 {
 
     "files":[
-        "Library/XmlEncoder.class.php",
+        "Library/XmlEncoder.php",
         "Library/Utils.php",
-        "Core/Config.class.php",
-        "Core/Dbdriver.class.php",
-        "Core/Model.class.php",
-        "Core/Request.class.php",
-        "Core/Response.class.php",
-        "Core/Controller.class.php",
-        "Core/Route.class.php",
-        "Core/Router.class.php",
+        "Core/Config.php",
+        "Core/Dbdriver.php",
+        "Core/Model.php",
+        "Core/Request.php",
+        "Core/Response.php",
+        "Core/Controller.php",
+        "Core/Route.php",
+        "Core/Router.php",
         "Routes.php"
     ]
 

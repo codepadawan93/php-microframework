@@ -1,5 +1,5 @@
 <?php
-    require_once "Core/Loader.class.php";
+    require_once "Core/Loader.php";
     use Core\Controller;
     use Core\Config;
 
